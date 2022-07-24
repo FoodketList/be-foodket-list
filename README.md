@@ -4,4 +4,4 @@
 1) [Nest.js](https://nestjs.com)
 
 ## Committer
-- [dev-onejun](https://github.com/dev-onejun]
+- [dev-onejun](https://github.com/dev-onejun)
