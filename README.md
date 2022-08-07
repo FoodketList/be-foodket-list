@@ -8,3 +8,6 @@
 
 ## Committer
 - [dev-onejun](https://github.com/dev-onejun)
+
+## Development Cycle
+- 3 weeks per 1 domain.

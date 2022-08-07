@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id    Int          @id @default(autoincrement())
+  nickname   String       @unique
+  naver_id   String?
+  reviews    Review[]
+  comments   Comment[]
+  followers  FollowList[] @relation("followed")
+  followings FollowList[] @relation("following")
+  LikeList   LikeList[]
+}
+
+model FollowList {
+  followed_id    Int
+  followed_user  User? @relation("followed", fields: [followed_id], references: [user_id])
+  following_id   Int
+  following_user User? @relation("following", fields: [following_id], references: [user_id])
+
+  @@id([followed_id, following_id])
+}
+
+model Review {
+  review_id  Int        @id @default(autoincrement())
+  title      String
+  content    String?
+  grade      Int
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  author     User?      @relation(fields: [author_id], references: [user_id])
+  author_id  Int?
+  comments   Comment[]
+  LikeList   LikeList[]
+}
+
+model Comment {
+  body      String
+  user      User?   @relation(fields: [user_id], references: [user_id])
+  user_id   Int
+  review    Review? @relation(fields: [review_id], references: [review_id])
+  review_id Int     @id
+}
+
+model LikeList {
+  review    Review? @relation(fields: [review_id], references: [review_id])
+  review_id Int
+  user      User?   @relation(fields: [liked_id], references: [user_id])
+  liked_id  Int
+
+  @@id([review_id, liked_id])
+}
+
+model Restaurant {
+  name    String
+  address String
+
+  @@id([name, address])
+}
